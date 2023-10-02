@@ -43,3 +43,27 @@
   - >In multi-habit record keeping, each habit should carry essential information, including its name for identification, the name of the unit of measurement (if applicable), and the type of unit (integer or floating-point) to facilitate consistent tracking and reporting.
 - When developing a statistics view, what information should be queryable? E.g. sum of records between two dates etc.
   - >Queryable statistics should include the sum of records between two dates, the average value, and the total count of records. These metrics are relatively easy to compute and provide valuable insights into habit tracking progress.
+
+## MVP Functionality
+
+### Necessary Functionality
+- Create SQLite database with tables
+- Store records in and retrieve records from DB using ADO.NET
+- Menu system for navigating the application
+  - Main menu
+  - Record input screen
+  - Record management screen
+    - Pagination
+
+### Possible Later Functionality
+- Record multiple habits
+  - Create habits
+    - Habit creation screen
+  - Manage habits
+    - Habits management screen
+- Set unit per-habit
+  - Create unit
+    - Unit creation screen
+  - Manage units
+    - Units management screen
+- Calculate & view record statistics
