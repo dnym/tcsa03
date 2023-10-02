@@ -44,6 +44,12 @@
 - When developing a statistics view, what information should be queryable? E.g. sum of records between two dates etc.
   - >Queryable statistics should include the sum of records between two dates, the average value, and the total count of records. These metrics are relatively easy to compute and provide valuable insights into habit tracking progress.
 
+### More Questions & Decisions
+- What if the user enters bad input, e.g. invalid date or quantity?
+  - Repeat the input until good input is given, but listen to `Esc` to cancel input.
+- Should we ask for confirmation before deletion?
+  - Not in MVP.
+
 ## MVP Functionality
 
 ### Necessary Functionality
