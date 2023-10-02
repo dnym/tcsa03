@@ -73,3 +73,81 @@
   - Manage units
     - Units management screen
 - Calculate & view record statistics
+
+## User Interface
+Main menu:
+```text
+Habit Logger
+============
+
+1. Insert Record
+2. Manage Records
+0. Quit
+
+------------
+Press a number to select.
+```
+
+Record insertion:
+```text
+Insert Record
+=============
+
+Enter a time and date for this record,
+or leave empty for current time: _
+
+-------------
+Press [Esc] to cancel insertion.
+```
+
+Record insertion:
+```text
+Insert Record
+=============
+
+Enter a time and date for this record,
+or leave empty for current time: 2020-02-20 20:20:20
+
+Enter the quantity for this occasion: _
+
+-------------
+Press [Esc] to cancel insertion.
+```
+
+Record management:
+```text
+Records (page 2/3)
+==================
+
+ 1.  8 @ 2020-08-05 14:36:42
+ 2. 38 @ 2020-12-12 05:41:18
+ 3. 22 @ 2021-10-03 08:14:37
+ 4. 17 @ 2021-11-27 16:45:29
+ 5.  1 @ 2022-04-15 09:23:51
+ 6. 45 @ 2022-06-19 20:55:03
+ 7. 11 @ 2022-09-08 22:19:01
+ 8. 32 @ 2023-01-10 11:07:14
+ 9.  9 @ 2023-03-28 17:29:56
+10.  5 @ 2023-05-30 13:50:27
+
+Select a record to manage: _
+
+------------------
+Press [PgUp] to go to the previous page,
+[PgDown] to go to the next page,
+or [Esc] to go back to the main menu.
+```
+
+Single record management:
+```text
+Viewing Record
+==============
+
+Date: 2022-06-19 20:55:03
+Quantity: 45
+
+--------------
+Press [M] to modify the record,
+[D] to delete,
+or [Esc] to go back to the main menu.
+```
