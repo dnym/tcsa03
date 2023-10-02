@@ -160,3 +160,10 @@ or [Esc] to go back to the main menu.
 - [x] Basic C#
 - [x] Connecting to SQLite
 - [x] Basic SQL
+
+## Data Structures
+- HabitRecord
+  - Date performed (DateTime)
+  - Quantity (int)
+- All Habit Records
+  - List of records (List\<HabitRecord\>)
