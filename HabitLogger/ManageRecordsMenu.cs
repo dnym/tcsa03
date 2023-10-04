@@ -28,6 +28,8 @@ Press {}.";
         int perPage = Math.Max(1, Console.WindowHeight - 11);
         Helpers.Signal? signal;
 
+        Program.Records.Sort((a, b) => b.Date.CompareTo(a.Date));
+
         bool pressedEscape = false;
         while (!pressedEscape)
         {
