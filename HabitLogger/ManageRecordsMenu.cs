@@ -4,9 +4,7 @@ internal static class ManageRecordsMenu
 {
     public static void Show()
     {
-        const string headerBase = @"Records{}
-==================
-";
+        const string headerBase = @"Records";
         string header;
 
         const string pgUp = @"[PgUp] to go to the previous page,
@@ -43,6 +41,22 @@ Press {}.";
 
             Console.Clear();
             {
+                if (Program.Records.Count <= perPage)
+                {
+                    string divider = new('=', headerBase.Length);
+                    header = $"{headerBase}\n{divider}\n";
+                }
+                else
+                {
+                    var totalPages = (int)Math.Ceiling(Program.Records.Count / (double)perPage);
+                    var currentPage = (int)Math.Ceiling((skipped + 1) / (double)perPage);
+                    header = headerBase + $" (page {currentPage}/{totalPages})";
+                    string divider = new('=', header.Length);
+                    header = $"{header}\n{divider}\n";
+                }
+                Console.WriteLine(header);
+            }
+            {
                 if (skipped == 0 && left == 0)
                 {
                     footer = footerBase.Replace("{}", esc);
@@ -59,19 +73,6 @@ Press {}.";
                 {
                     footer = footerBase.Replace("{}", $"{pgUp}{pgDown}or {esc}");
                 }
-            }
-            {
-                if (Program.Records.Count <= perPage)
-                {
-                    header = headerBase.Replace("{}", "");
-                }
-                else
-                {
-                    var totalPages = (int)Math.Ceiling(Program.Records.Count / (double)perPage);
-                    var currentPage = (int)Math.Ceiling((skipped + 1) / (double)perPage);
-                    header = headerBase.Replace("{}", $" (page {currentPage}/{totalPages})");
-                }
-                Console.WriteLine(header);
             }
 
             if (subset.Count > 0)
@@ -101,12 +102,12 @@ Press {}.";
             }
 
             Console.WriteLine(footer);
-
+            string userSelection;
             if (subset.Count > 0)
             {
                 Console.SetCursorPosition(currentPositionX, currentPositionY);
             }
-            (pressedEscape, _, signal) = Helpers.ReadInput();
+            (pressedEscape, userSelection, signal) = Helpers.ReadInput();
             if (signal == Helpers.Signal.PG_UP && skipped > 0)
             {
                 skipped = Math.Max(0, skipped - perPage);
@@ -114,6 +115,21 @@ Press {}.";
             else if (signal == Helpers.Signal.PG_DOWN && left > 0)
             {
                 skipped = Math.Min(Program.Records.Count - 1, skipped + perPage);
+            }
+            else if (int.TryParse(userSelection, out int recordNumber) && recordNumber >= 1 && recordNumber <= perPage && recordNumber <= subset.Count)
+            {
+                var record = subset[recordNumber - 1];
+                if (ManageRecordScreen.Show(record))
+                {
+                    if (!Program.Records.Contains(record))
+                    {
+                        subset.Remove(record);
+                        if (subset.Count == 0)
+                        {
+                            skipped = Math.Max(0, skipped - perPage);
+                        }
+                    }
+                }
             }
         }
     }
