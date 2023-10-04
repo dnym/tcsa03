@@ -36,7 +36,7 @@ or leave empty for current time: ";
 
             Console.SetCursorPosition(currentPositionX, currentPositionY);
 
-            (pressedEscape, userDateString) = Helpers.ReadInput();
+            (pressedEscape, userDateString, _) = Helpers.ReadInput();
 
             if (string.IsNullOrWhiteSpace(userDateString))
             {
@@ -64,7 +64,7 @@ or leave empty for current time: ";
 
             Console.SetCursorPosition(currentPositionX, currentPositionY);
             string userQuantityString;
-            (pressedEscape, userQuantityString) = Helpers.ReadInput();
+            (pressedEscape, userQuantityString, _) = Helpers.ReadInput();
 
             if (int.TryParse(userQuantityString, out var parsedQuantity))
             {

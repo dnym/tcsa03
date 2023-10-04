@@ -2,7 +2,13 @@
 {
     internal static class Helpers
     {
-        internal static Tuple<bool, string> ReadInput()
+        internal enum Signal
+        {
+            PG_UP,
+            PG_DOWN,
+        }
+
+        internal static Tuple<bool, string, Signal?> ReadInput()
         {
             int cursorStartX = Console.CursorLeft;
             string userInput = "";
@@ -62,6 +68,10 @@
                             Console.SetCursorPosition(cursorStartX + inputPosition, Console.CursorTop);
                         }
                         break;
+                    case ConsoleKey.PageUp:
+                        return new (false, string.Empty, Signal.PG_UP);
+                    case ConsoleKey.PageDown:
+                        return new (false, string.Empty, Signal.PG_DOWN);
                     default:
                         userInput = userInput.Insert(inputPosition, $"{keyInfo.KeyChar}");
                         inputPosition++;
@@ -72,7 +82,7 @@
                         break;
                 }
             }
-            return new(pressedEscape, userInput);
+            return new(pressedEscape, userInput, null);
         }
 
         internal static void ClearRestOfLine()
