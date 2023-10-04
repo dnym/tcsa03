@@ -25,9 +25,7 @@ Press a number to select.");
                     break;
                 case ConsoleKey.D2:
                 case ConsoleKey.NumPad2:
-                    Console.Clear();
-                    Console.WriteLine("ManageRecordsMenu.Show();");
-                    Console.ReadKey();
+                    ManageRecordsMenu.Show();
                     break;
                 case ConsoleKey.D0:
                 case ConsoleKey.NumPad0:
