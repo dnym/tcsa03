@@ -1,4 +1,6 @@
-﻿namespace HabitLogger;
+﻿using System.Diagnostics;
+
+namespace HabitLogger;
 
 internal static class InsertRecordScreen
 {
@@ -69,6 +71,8 @@ or leave empty for current time: ";
                 userQuantity = parsedQuantity;
             }
         }
+
+        Debug.WriteLineIf(userDate != null && userQuantity != null, $"Logged record: {userQuantity} @ {userDate}");
     }
 
     private static Tuple<bool, string> ReadInput()
