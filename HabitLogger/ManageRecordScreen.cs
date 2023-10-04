@@ -23,9 +23,7 @@ or [Esc] to go back to the main menu.");
             switch (key.Key)
             {
                 case ConsoleKey.M:
-                    Console.Clear();
-                    Console.WriteLine("ModifyRecordScreen.Show(record);");
-                    Console.ReadKey(true);
+                    ModifyRecordScreen.Show(record);
                     break;
                 case ConsoleKey.D:
                     Program.Records.Remove(record);
