@@ -24,8 +24,8 @@ or leave empty for current time: ";
         DateTime? userDate = null;
         int? userQuantity = null;
 
-        bool stayInMenu = true;
-        while (stayInMenu && userDate == null)
+        bool pressedEscape = false;
+        while (!pressedEscape && userDate == null)
         {
             Console.Clear();
             Console.WriteLine(header);
@@ -36,7 +36,7 @@ or leave empty for current time: ";
 
             Console.SetCursorPosition(currentPositionX, currentPositionY);
 
-            (stayInMenu, userDateString) = ReadInput();
+            (pressedEscape, userDateString) = Helpers.ReadInput();
 
             if (string.IsNullOrWhiteSpace(userDateString))
             {
@@ -50,7 +50,7 @@ or leave empty for current time: ";
             }
         }
 
-        while (stayInMenu && userQuantity == null)
+        while (!pressedEscape && userQuantity == null)
         {
             Console.Clear();
             Console.WriteLine(header);
@@ -64,7 +64,7 @@ or leave empty for current time: ";
 
             Console.SetCursorPosition(currentPositionX, currentPositionY);
             string userQuantityString;
-            (stayInMenu, userQuantityString) = ReadInput();
+            (pressedEscape, userQuantityString) = Helpers.ReadInput();
 
             if (int.TryParse(userQuantityString, out var parsedQuantity))
             {
@@ -72,87 +72,10 @@ or leave empty for current time: ";
             }
         }
 
-        Debug.WriteLineIf(userDate != null && userQuantity != null, $"Logged record: {userQuantity} @ {userDate}");
-    }
-
-    private static Tuple<bool, string> ReadInput()
-    {
-        int cursorStartX = Console.CursorLeft;
-        string userInput = "";
-        int inputPosition = 0;
-        bool stayInMenu = true;
-        bool keepReadingKeys = true;
-        while (stayInMenu && keepReadingKeys)
+        if (!pressedEscape && userDate != null && userQuantity != null)
         {
-            var keyInfo = Console.ReadKey(true);
-            switch (keyInfo.Key)
-            {
-                case ConsoleKey.Escape:
-                    stayInMenu = false;
-                    break;
-                case ConsoleKey.Enter:
-                    keepReadingKeys = false;
-                    break;
-                case ConsoleKey.Backspace:
-                    if (inputPosition > 0)
-                    {
-                        inputPosition--;
-                        userInput = userInput.Remove(inputPosition, 1);
-                        Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-                        ClearRestOfLine();
-                        Console.Write(userInput[inputPosition..]);
-                        Console.SetCursorPosition(cursorStartX + inputPosition, Console.CursorTop);
-                    }
-                    break;
-                case ConsoleKey.Home:
-                    inputPosition = 0;
-                    Console.SetCursorPosition(cursorStartX, Console.CursorTop);
-                    break;
-                case ConsoleKey.End:
-                    inputPosition = userInput.Length;
-                    Console.SetCursorPosition(cursorStartX + inputPosition, Console.CursorTop);
-                    break;
-                case ConsoleKey.LeftArrow:
-                    if (inputPosition > 0)
-                    {
-                        inputPosition--;
-                        Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-                    }
-                    break;
-                case ConsoleKey.RightArrow:
-                    if (inputPosition < userInput.Length)
-                    {
-                        inputPosition++;
-                        Console.SetCursorPosition(Console.CursorLeft + 1, Console.CursorTop);
-                    }
-                    break;
-                case ConsoleKey.Delete:
-                    if (inputPosition < userInput.Length)
-                    {
-                        userInput = userInput.Remove(inputPosition, 1);
-                        ClearRestOfLine();
-                        Console.Write(userInput[inputPosition..]);
-                        Console.SetCursorPosition(cursorStartX + inputPosition, Console.CursorTop);
-                    }
-                    break;
-                default:
-                    userInput = userInput.Insert(inputPosition, $"{keyInfo.KeyChar}");
-                    inputPosition++;
-                    Console.Write(keyInfo.KeyChar);
-                    ClearRestOfLine();
-                    Console.Write(userInput[inputPosition..]);
-                    Console.SetCursorPosition(cursorStartX + inputPosition, Console.CursorTop);
-                    break;
-            }
+            Program.Records.Add(new Models.HabitRecord() { Date = userDate.Value, Quantity = userQuantity.Value });
+            Debug.WriteLine($"Added record: {userQuantity} @ {userDate}");
         }
-        return new(stayInMenu, userInput);
-    }
-
-    private static void ClearRestOfLine()
-    {
-        var currentLine = Console.CursorTop;
-        var currentColumn = Console.CursorLeft;
-        Console.Write(new string(' ', Console.WindowWidth - currentColumn));
-        Console.SetCursorPosition(currentColumn, currentLine);
     }
 }
