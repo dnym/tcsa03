@@ -18,11 +18,12 @@ or leave empty for current time: ";
 
         const string quantityPrompt = "Enter the quantity for this occasion: ";
 
-        string userDate = "";
-        string userQuantity = "";
+        string userDateString = "";
+        DateTime? userDate = null;
+        int? userQuantity = null;
 
         bool stayInMenu = true;
-        while (stayInMenu && string.IsNullOrWhiteSpace(userDate))
+        while (stayInMenu && userDate == null)
         {
             Console.Clear();
             Console.WriteLine(header);
@@ -33,15 +34,26 @@ or leave empty for current time: ";
 
             Console.SetCursorPosition(currentPositionX, currentPositionY);
 
-            (stayInMenu, userDate) = ReadInput();
+            (stayInMenu, userDateString) = ReadInput();
+
+            if (string.IsNullOrWhiteSpace(userDateString))
+            {
+                var now = DateTime.Now;
+                userDate = now;
+                userDateString = now.ToString();
+            }
+            else if (DateTime.TryParse(userDateString, out var parsedDate))
+            {
+                userDate = parsedDate;
+            }
         }
 
-        while (stayInMenu && string.IsNullOrWhiteSpace(userQuantity))
+        while (stayInMenu && userQuantity == null)
         {
             Console.Clear();
             Console.WriteLine(header);
             Console.Write(datePrompt);
-            Console.WriteLine(userDate);
+            Console.WriteLine(userDateString);
             Console.WriteLine();
             Console.Write(quantityPrompt);
             var currentPositionX = Console.CursorLeft;
@@ -49,7 +61,13 @@ or leave empty for current time: ";
             Console.WriteLine(footer);
 
             Console.SetCursorPosition(currentPositionX, currentPositionY);
-            (stayInMenu, userQuantity) = ReadInput();
+            string userQuantityString;
+            (stayInMenu, userQuantityString) = ReadInput();
+
+            if (int.TryParse(userQuantityString, out var parsedQuantity))
+            {
+                userQuantity = parsedQuantity;
+            }
         }
     }
 
