@@ -21,9 +21,7 @@ Press a number to select.");
             {
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
-                    Console.Clear();
-                    Console.WriteLine("InsertRecordMenu.Show();");
-                    Console.ReadKey();
+                    InsertRecordScreen.Show();
                     break;
                 case ConsoleKey.D2:
                 case ConsoleKey.NumPad2:
