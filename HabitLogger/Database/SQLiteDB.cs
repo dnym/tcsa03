@@ -4,6 +4,7 @@ using System.Globalization;
 
 namespace HabitLogger.Database
 {
+    // TODO: According to spec, errors should be non-fatal, which they currently are.
     internal class SQLiteDB : IDatabase
     {
         private const string _createTableSql = @"CREATE TABLE IF NOT EXISTS ""records"" (
