@@ -5,7 +5,7 @@ namespace HabitLogger;
 
 internal static class ModifyRecordScreen
 {
-    public static void Show(HabitRecord record)
+    public static bool Show(HabitRecord record)
     {
         const string header = @"Modify Record
 =============
@@ -77,11 +77,14 @@ for unchanged quantity [{record.Quantity}]: ";
             }
         }
 
+        var output = false;
         if (!pressedEscape && userDate != null && userQuantity != null && (userDate != record.Date || userQuantity != record.Quantity))
         {
             record.Date = (DateTime)userDate;
             record.Quantity = (int)userQuantity;
             Debug.WriteLine($"Modified record: {userQuantity} @ {userDate}");
+            output = true;
         }
+        return output;
     }
 }

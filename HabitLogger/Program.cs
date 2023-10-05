@@ -1,10 +1,11 @@
-﻿using HabitLogger.Models;
+﻿using HabitLogger.Database;
+using HabitLogger.Models;
 
 namespace HabitLogger;
 
 internal static class Program
 {
-    internal static List<HabitRecord> Records = new();
+    internal static IDatabase Database = new MemoryStorage();
 
     static void Main()
     {

@@ -74,7 +74,7 @@ or leave empty for current time: ";
 
         if (!pressedEscape && userDate != null && userQuantity != null)
         {
-            Program.Records.Add(new Models.HabitRecord() { Date = userDate.Value, Quantity = userQuantity.Value });
+            Program.Database.InsertRecord(new Models.HabitRecord() { Date = userDate.Value, Quantity = userQuantity.Value });
             Debug.WriteLine($"Added record: {userQuantity} @ {userDate}");
         }
     }

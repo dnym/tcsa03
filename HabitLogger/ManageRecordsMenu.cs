@@ -24,17 +24,17 @@ Press {}.";
         const string prompt = "Select a record to manage: ";
         const string noRecords = "No records to manage.";
 
+        int recordsCount;
         int skipped = 0;
         int perPage = Math.Max(1, Console.WindowHeight - 11);
         Helpers.Signal? signal;
 
-        Program.Records.Sort((a, b) => b.Date.CompareTo(a.Date));
-
         bool pressedEscape = false;
         while (!pressedEscape)
         {
-            var subset = Program.Records.Skip(skipped).Take(perPage).ToList();
-            int left = Program.Records.Count - skipped - subset.Count;
+            recordsCount = Program.Database.GetRecordsCount();
+            var subset = Program.Database.GetRecords(perPage, skipped);
+            int left = recordsCount - skipped - subset.Count;
             var quantityWidth = 0;
             if (subset.Count > 0)
             {
@@ -43,14 +43,14 @@ Press {}.";
 
             Console.Clear();
             {
-                if (Program.Records.Count <= perPage)
+                if (recordsCount <= perPage)
                 {
                     string divider = new('=', headerBase.Length);
                     header = $"{headerBase}\n{divider}\n";
                 }
                 else
                 {
-                    var totalPages = (int)Math.Ceiling(Program.Records.Count / (double)perPage);
+                    var totalPages = (int)Math.Ceiling(recordsCount / (double)perPage);
                     var currentPage = (int)Math.Ceiling((skipped + 1) / (double)perPage);
                     header = headerBase + $" (page {currentPage}/{totalPages})";
                     string divider = new('=', header.Length);
@@ -116,21 +116,14 @@ Press {}.";
             }
             else if (signal == Helpers.Signal.PG_DOWN && left > 0)
             {
-                skipped = Math.Min(Program.Records.Count - 1, skipped + perPage);
+                skipped = Math.Min(recordsCount - 1, skipped + perPage);
             }
             else if (int.TryParse(userSelection, out int recordNumber) && recordNumber >= 1 && recordNumber <= perPage && recordNumber <= subset.Count)
             {
                 var record = subset[recordNumber - 1];
-                if (ManageRecordScreen.Show(record))
+                if (ManageRecordScreen.Show(record) == ManageRecordScreen.Action.Delete && subset.Count == 1)
                 {
-                    if (!Program.Records.Contains(record))
-                    {
-                        subset.Remove(record);
-                        if (subset.Count == 0)
-                        {
-                            skipped = Math.Max(0, skipped - perPage);
-                        }
-                    }
+                    skipped = Math.Max(0, skipped - perPage);
                 }
             }
         }
