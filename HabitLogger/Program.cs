@@ -4,7 +4,7 @@ namespace HabitLogger;
 
 internal static class Program
 {
-    internal static IDatabase _database = new MemoryStorage();
+    internal static IDatabase _database = new SQLiteDB("Data Source=HabitLogger.db");
 
     static void Main()
     {
