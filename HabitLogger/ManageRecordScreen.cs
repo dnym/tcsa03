@@ -33,12 +33,10 @@ or [Esc] to go back to the main menu.");
                 case ConsoleKey.M:
                     if (ModifyRecordScreen.Show(record))
                     {
-                        Program.Database.UpdateRecord(record);
                         returnAction = Action.Modify;
                     }
                     break;
                 case ConsoleKey.D:
-                    Program.Database.DeleteRecord(record.Id);
                     return Action.Delete;
                 case ConsoleKey.Escape:
                     return returnAction;

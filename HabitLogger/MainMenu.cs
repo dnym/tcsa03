@@ -1,8 +1,21 @@
-﻿namespace HabitLogger;
+﻿using HabitLogger.Database;
 
-internal static class MainMenu
+namespace HabitLogger;
+
+internal class MainMenu
 {
-    public static void Show()
+    private readonly IDatabase _database;
+    private readonly InsertRecordScreen _insertRecordScreen;
+    private readonly ManageRecordsMenu _manageRecordsMenu;
+
+    public MainMenu(IDatabase database)
+    {
+        _database = database;
+        _insertRecordScreen = new InsertRecordScreen(_database);
+        _manageRecordsMenu = new ManageRecordsMenu(_database);
+    }
+
+    public void Show()
     {
         while (true)
         {
@@ -21,11 +34,11 @@ Press a number to select.");
             {
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
-                    InsertRecordScreen.Show();
+                    _insertRecordScreen.Show();
                     break;
                 case ConsoleKey.D2:
                 case ConsoleKey.NumPad2:
-                    ManageRecordsMenu.Show();
+                    _manageRecordsMenu.Show();
                     break;
                 case ConsoleKey.D0:
                 case ConsoleKey.NumPad0:

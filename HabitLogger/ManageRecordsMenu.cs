@@ -1,10 +1,19 @@
-﻿namespace HabitLogger;
+﻿using HabitLogger.Database;
 
-internal static class ManageRecordsMenu
+namespace HabitLogger;
+
+internal class ManageRecordsMenu
 {
-    public static void Show()
+    private readonly IDatabase _database;
+
+    public ManageRecordsMenu(IDatabase database)
     {
-        const string headerBase = @"Records";
+        _database = database;
+    }
+
+    public void Show()
+    {
+        const string headerBase = "Records";
         string header;
 
         const string pgUp = @"[PgUp] to go to the previous page,
@@ -32,8 +41,8 @@ Press {}.";
         bool pressedEscape = false;
         while (!pressedEscape)
         {
-            recordsCount = Program.Database.GetRecordsCount();
-            var subset = Program.Database.GetRecords(perPage, skipped);
+            recordsCount = _database.GetRecordsCount();
+            var subset = _database.GetRecords(perPage, skipped);
             int left = recordsCount - skipped - subset.Count;
             var quantityWidth = 0;
             if (subset.Count > 0)
@@ -121,9 +130,18 @@ Press {}.";
             else if (int.TryParse(userSelection, out int recordNumber) && recordNumber >= 1 && recordNumber <= perPage && recordNumber <= subset.Count)
             {
                 var record = subset[recordNumber - 1];
-                if (ManageRecordScreen.Show(record) == ManageRecordScreen.Action.Delete && subset.Count == 1)
+                var action = ManageRecordScreen.Show(record);
+                if (action == ManageRecordScreen.Action.Delete)
                 {
-                    skipped = Math.Max(0, skipped - perPage);
+                    _database.DeleteRecord(record.Id);
+                    if (subset.Count == 1)
+                    {
+                        skipped = Math.Max(0, skipped - perPage);
+                    }
+                }
+                else if (action == ManageRecordScreen.Action.Modify)
+                {
+                    _database.UpdateRecord(record);
                 }
             }
         }

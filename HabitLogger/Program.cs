@@ -1,14 +1,14 @@
 ﻿using HabitLogger.Database;
-using HabitLogger.Models;
 
 namespace HabitLogger;
 
 internal static class Program
 {
-    internal static IDatabase Database = new MemoryStorage();
+    internal static IDatabase _database = new MemoryStorage();
 
     static void Main()
     {
-        MainMenu.Show();
+        var mainMenu = new MainMenu(_database);
+        mainMenu.Show();
     }
 }

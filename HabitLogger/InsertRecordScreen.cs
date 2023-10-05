@@ -1,10 +1,18 @@
-﻿using System.Diagnostics;
+﻿using HabitLogger.Database;
+using System.Diagnostics;
 
 namespace HabitLogger;
 
-internal static class InsertRecordScreen
+internal class InsertRecordScreen
 {
-    public static void Show()
+    private readonly IDatabase _database;
+
+    public InsertRecordScreen(IDatabase database)
+    {
+        _database = database;
+    }
+
+    public void Show()
     {
         const string header = @"Insert Record
 =============
@@ -74,7 +82,7 @@ or leave empty for current time: ";
 
         if (!pressedEscape && userDate != null && userQuantity != null)
         {
-            Program.Database.InsertRecord(new Models.HabitRecord() { Date = userDate.Value, Quantity = userQuantity.Value });
+            _database.InsertRecord(new Models.HabitRecord() { Date = userDate.Value, Quantity = userQuantity.Value });
             Debug.WriteLine($"Added record: {userQuantity} @ {userDate}");
         }
     }
