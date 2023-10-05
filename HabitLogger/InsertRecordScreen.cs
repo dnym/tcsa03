@@ -55,6 +55,7 @@ or leave empty for current time: ";
             else if (DateTime.TryParse(userDateString, out var parsedDate))
             {
                 userDate = parsedDate;
+                userDateString = parsedDate.ToString();
             }
         }
 

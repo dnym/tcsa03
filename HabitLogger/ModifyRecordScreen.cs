@@ -48,6 +48,7 @@ for unchanged quantity [{record.Quantity}]: ";
             else if (DateTime.TryParse(userDateString, out var parsedDate))
             {
                 userDate = parsedDate;
+                userDateString = parsedDate.ToString();
             }
         }
 
