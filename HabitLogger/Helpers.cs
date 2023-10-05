@@ -45,6 +45,9 @@
                         inputPosition = userInput.Length;
                         Console.SetCursorPosition(cursorStartX + inputPosition, Console.CursorTop);
                         break;
+                    case ConsoleKey.UpArrow:
+                    case ConsoleKey.DownArrow:
+                        break;
                     case ConsoleKey.LeftArrow:
                         if (inputPosition > 0)
                         {
