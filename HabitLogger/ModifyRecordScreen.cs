@@ -1,5 +1,6 @@
 ﻿using HabitLogger.Models;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace HabitLogger;
 
@@ -16,8 +17,9 @@ internal static class ModifyRecordScreen
 -------------
 Press [Esc] to cancel modification.";
 
-        string datePrompt = @$"Enter a time and date for this record, or leave empty
-for unchanged time [{record.Date}]: ";
+        DateTimeFormatInfo formatInfo = CultureInfo.CurrentCulture.DateTimeFormat;
+        string datePrompt = @$"Enter a time and date for this record ({formatInfo.ShortDatePattern + " " + formatInfo.LongTimePattern}),
+or leave empty for unchanged time [{record.Date}]: ";
 
         string quantityPrompt = @$"Enter the quantity for this occasion, or leave empty
 for unchanged quantity [{record.Quantity}]: ";

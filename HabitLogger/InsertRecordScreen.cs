@@ -1,5 +1,6 @@
 ﻿using HabitLogger.Database;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace HabitLogger;
 
@@ -22,8 +23,9 @@ internal class InsertRecordScreen
 
 -------------
 Press [Esc] to cancel insertion.";
-
-        const string datePrompt = @"Enter a time and date for this record,
+        
+        DateTimeFormatInfo formatInfo = CultureInfo.CurrentCulture.DateTimeFormat;
+        string datePrompt = @$"Enter a time and date for this record ({formatInfo.ShortDatePattern + " " + formatInfo.LongTimePattern}),
 or leave empty for current time: ";
 
         const string quantityPrompt = "Enter the quantity for this occasion: ";
